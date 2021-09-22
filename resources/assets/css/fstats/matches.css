@@ -1,0 +1,39 @@
+/* fs-matches */
+
+#fs-matches {
+	padding: 7rem 0 4rem;
+	color: var(--white);
+	background-color: #343a40;
+	background-attachment: fixed;
+	background-position: bottom;
+	background-size: cover;
+}
+
+@media (max-width: 767.98px){
+	#fs-matches {
+		padding: 6rem 0 3rem;
+	}
+}
+
+#fs-matches-table thead {
+    background-color: var(--grey);
+}
+#fs-matches-table th,
+#fs-matches-table td {
+    font-weight: normal;
+    padding: 5px 10px;
+    border-bottom: 1px solid var(--black);
+    border-left: 1px solid var(--black);
+    border-collapse: collapse;
+}
+#fs-matches-table th:first-child,
+#fs-matches-table td:first-child {
+    border-left: none;
+}
+#fs-matches-table th {
+	padding: 10px;
+    border-bottom: 1px solid var(--red);
+}
+#fs-matches-table-alert {
+	border-top: 1px solid var(--red);
+}

@@ -1,0 +1,39 @@
+/* fstats - date-links */
+
+.date-links {
+    border-bottom: 1px solid var(--red);
+}
+
+.date-links td {
+    padding: 0;
+}
+
+.date-links td a {
+    display: block;
+    padding: 10px;
+    color: inherit;
+    background-color: var(--black);
+    text-decoration: none;
+    border-left: 1px solid var(--gray);
+    min-height: 38px;
+    min-width: 38px;
+}
+
+.date-links td:nth-of-type(1) a {
+    border-left: none;
+}
+
+.date-links td a:focus,
+.date-links td a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    outline: none;
+    color: var(--red);
+}
+
+.date-links td a:active,
+.date-links td a.active {
+    background-color: var(--red);
+    border-color: var(--red);
+    color: var(--dark);
+}

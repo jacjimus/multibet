@@ -1,0 +1,46 @@
+#contact {
+    background-color: var(--nav-dark);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+#contact form#contact-form .form-group {
+    margin-bottom: 1.5rem;
+}
+#contact form#contact-form .form-group input,
+#contact form#contact-form .form-group textarea {
+    padding: 1rem;
+    font-weight: bold;
+}
+#contact form#contact-form .form-group input.form-control {
+    height: auto;
+}
+#contact form#contact-form .form-group-textarea {
+    height: 100%;
+}
+#contact form#contact-form .form-group-textarea textarea {
+    height: 100%;
+    min-height: 10rem;
+}
+#contact form#contact-form p.help-block {
+    margin: 0;
+}
+#contact form#contact-form .form-control:focus {
+    border-color: var(--primary);
+    box-shadow: none;
+}
+#contact form#contact-form ::-webkit-input-placeholder {
+    font-weight: var(--placeholder-weight);
+    color: var(--placeholder-col);
+}
+#contact form#contact-form :-moz-placeholder {
+    font-weight: var(--placeholder-weight);
+    color: var(--placeholder-col);
+}
+#contact form#contact-form ::-moz-placeholder {
+    font-weight: var(--placeholder-weight);
+    color: var(--placeholder-col);
+}
+#contact form#contact-form :-ms-input-placeholder {
+    font-weight: var(--placeholder-weight);
+    color: var(--placeholder-col);
+}
