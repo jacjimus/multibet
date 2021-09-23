@@ -191,7 +191,7 @@ class FsMatches
     }
 
     //get matches
-    public function getMatches(bool $filter=true, bool $cache_matches=false, string $diff='', string $odd = '')
+    public function getMatches(bool $filter=true, bool $cache_matches=false, $diff='', $odd = '')
     {
         //set vars
         $utime = $this->_utime;
