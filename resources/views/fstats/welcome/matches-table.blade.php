@@ -66,14 +66,14 @@
 					<!-- fixture -->
                     <td class="text-left">{{ $item['home_name'] }}</td>
 
-                    <td class="text-nowrap text-center {{$item['home_form_last5'] * 5 }}">{{ $item['home_form_last5'] * 5 }}</td>
+                    <td class="text-nowrap text-center {{$item['home_form_last5'] }}">{{ $item['home_form_last5'] }}</td>
 
 
                     <td class="text-left">{{ $item['away_name'] }}</td>
-                    <td class="text-nowrap text-center {{$item['away_form_last5'] * 5 }}">{{ $item['away_form_last5'] * 5 }}</td>
+                    <td class="text-nowrap text-center {{$item['away_form_last5'] }}">{{ $item['away_form_last5'] }}</td>
 
 					<!-- odds -->
-					<td class="text-nowrap text-center ">{{ abs($item['home_form_last5'] * 5  - $item['away_form_last5'] * 5) }}</td>
+					<td class="text-nowrap text-center ">{{ abs($item['home_form_last5']  - $item['away_form_last5']) }}</td>
                     <!-- odds -->
                     <td class="text-nowrap text-center odds-from-{{ $item['odds_from'] }}">
                         {{ $item['odds_tips'][$item['win_tip']] ?? $item['odds_tips'] }}
