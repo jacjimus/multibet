@@ -26,8 +26,8 @@
 		<x-controls.css href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" />
 		<x-controls.css :href="asset('assets/css/lib/bootstrap-agency.css')" />
         <x-controls.css :href="asset('assets/css/app.css')" />
-        <x-controls.css href="http://cdn-na.infragistics.com/igniteui/2021.1/latest/css/themes/infragistics/infragistics.theme.css" />
-        <x-controls.css href="http://cdn-na.infragistics.com/igniteui/2021.1/latest/css/structure/infragistics.css" />
+        <x-controls.css href="//cdn-na.infragistics.com/igniteui/2021.1/latest/css/themes/infragistics/infragistics.theme.css" />
+        <x-controls.css href="//cdn-na.infragistics.com/igniteui/2021.1/latest/css/structure/infragistics.css" />
 
         <!-- lib -->
         <x-controls.js src="{{ asset('assets/js/lib/jquery-3.6.0.min.js') }}" />
@@ -38,9 +38,9 @@
 		<x-controls.js src="{{ asset('assets/js/app.js') }}" />
 
 
-        <x-controls.js src="http://code.jquery.com/ui/1.11.1/jquery-ui.min.js" />
-		<x-controls.js src="http://cdn-na.infragistics.com/igniteui/2021.1/latest/js/infragistics.core.js" />
-		<x-controls.js src="http://cdn-na.infragistics.com/igniteui/2021.1/latest/js/infragistics.lob.js" />
+        <x-controls.js src="//code.jquery.com/ui/1.11.1/jquery-ui.min.js" />
+		<x-controls.js src="//cdn-na.infragistics.com/igniteui/2021.1/latest/js/infragistics.core.js" />
+		<x-controls.js src="//cdn-na.infragistics.com/igniteui/2021.1/latest/js/infragistics.lob.js" />
 
 
 		<!-- inc -->
