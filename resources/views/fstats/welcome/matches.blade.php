@@ -1,6 +1,7 @@
 <!-- matches -->
 <section id="fs-matches" style="background-image: url('{{ asset('assets/images/fstats/back.jpg?v=' . config('app.build')) }}');">
 	<div class="container">
+		@include('fstats.welcome.banner')
 		@include('fstats.welcome.date-links')
 		@include('fstats.welcome.matches-table')
 	</div>

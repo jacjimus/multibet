@@ -13,11 +13,10 @@
 	</div>
 	@endif
 	<div class="table-wrapper">
-		{{--<table id="fs-matches-table" data-date="{{ $fs_show_date }}">
+		<table id="fs-matches-table" data-date="{{ $fs_show_date }}">
 			<thead>
 				<tr>
 					<th class="text-nowrap text-center">@lang('Date/Time')</th>
-					<th class="text-nowrap text-center">@lang('League')</th>
 					<th class="text-nowrap text-center">@lang('Home team')</th>
 					<th class="text-nowrap text-center">@lang('Form')</th>
 					<th class="text-nowrap text-center">@lang('Away team')</th>
@@ -25,6 +24,35 @@
 					<th class="text-nowrap text-center">@lang('Form diff.')</th>
 					<th class="text-nowrap text-center">@lang('Odds')</th>
 				</tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th  class="text-nowrap text-right">
+                         <x-inputs.input
+                            id="form-diff"
+                            name="form_diff"
+                            type="text"
+                            :maxlength="2"
+                            :size="2"
+                            style="text-align: right"
+                            />
+                    </th>
+                    <th class="text-nowrap text-center">
+                        <x-inputs.input
+                            id="odds"
+                            name="odds"
+                            type="text"
+                            :maxlength="4"
+                            :size="4"
+                            style="text-align: right"
+                        />
+
+                    </th>
+
+                </tr>
 			</thead>
 			<tbody>
 				@if (!empty($fs_match_list))
@@ -34,7 +62,6 @@
 
 					<!-- date -->
 					<td class="text-nowrap text-center">{{ $item['time_text'] }}</td>
-                    <td class="text-nowrap text-left"><a href="http://footystats.org{{ $item['league_url'] }}" target="_blank">{{ $item['league_name'] }}</a></td>
 
 					<!-- fixture -->
                     <td class="text-left">{{ $item['home_name'] }}</td>
@@ -57,52 +84,8 @@
 				@endforeach
 				@endif
 			</tbody>
-		</table>--}}
-
-        <table id="fs-matches-table" data-date="{{ $fs_show_date }}"></table>
-        <br />
+		</table>
 	</div>
 	<div id="fs-matches-table-alert"></div>
 </div>
-@section('page-scripts')
-    <script>
-        $(function () {
-            createAdvancedFilteringGrid();
-        });
-
-        function createAdvancedFilteringGrid() {
-            $("#fs-matches-table").igGrid({
-                autoGenerateColumns: false,
-                columns: [
-                    { headerText: "Match ID", key: "id", dataType: "string", hidden: true },
-                    { headerText: "Date/Time", key: "time_text", dataType: "date", width: "10%" },
-                    { headerText: "Home team", key: "home_name", dataType: "string", width: "15%" },
-                    { headerText: "Form", key: "home_form_last5", dataType: "number", width: "10%" },
-                    { headerText: "Away team", key: "away_name", dataType: "string", width: "15%" },
-                    { headerText: "Form", key: "away_form_last5", dataType: "number", width: "10%" },
-                    { headerText: "Form diff.", key: "form_diff_last5", dataType: "number", width: "10%" },
-                    { headerText: "Odds", key: "odds_tips", dataType: "object", width: "10%" ,
-                        mapper:  (odds) => {
-                            return odds.home_form_last5 >= odds.away_form_last5 ? odds.odds_tips[1] : odds.odds_tips[2]  }}
-                ],
-                dataSource: {!! json_encode($fs_match_list) !!},
-                renderCheckboxes: true,
-                responseDataKey: "results",
-                features: [
-                    {
-                        name: "Filtering",
-                        type: "local",
-                        mode: "advanced",
-                        filterDialogContainment: "window"
-                    },
-                    {
-                        name: "Paging",
-                        type: "local",
-                        pageSize: 30
-                    }
-                ]
-            });
-        }
-    </script>
-
-    @endsection
+<!-- /matches-table -->

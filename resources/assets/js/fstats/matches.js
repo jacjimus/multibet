@@ -16,8 +16,6 @@ $(function(){
 
 	//fs-fetch poll
 	_fsFetchPoll();
-
-
 });
 
 //_fsFetchPoll
@@ -72,5 +70,3 @@ function _fsMatches(date){
 	let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + '/?date=' + date;
 	return _goto(url);
 }
-
-
