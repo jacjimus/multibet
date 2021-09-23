@@ -6,12 +6,16 @@
 $(function(){
 	//fs-matches - click
 	$('[fs-matches]').click(function(e){
-		_fsMatches($(this).attr('fs-matches'));
+        const fill = $("#form-diff").val();
+        const odd = $("#odds").val();
+		_fsMatches($(this).attr('fs-matches') ,fill, odd );
 	});
 
 	//fs-matches - event
 	$(document).on('fs-matches', function(e, date){
-		_fsMatches(date);
+        const fill = $("#form-diff").val();
+        const odd = $("#odds").val();
+		_fsMatches(date , fill, odd);
 	});
 
     $(document).on("keypress", "input", function(e){
@@ -73,11 +77,13 @@ function _fsMatchesDate(){
 }
 
 //_fsMatches
-function _fsMatches(date){
+function _fsMatches(date, diff , odd){
 	if (!('string' === typeof date && date.length == 10)) return;
 	let curr = _fsMatchesDate();
 	if (date == curr) return _scrollTop('#fs-matches'); //todo update current
 	let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + '/?date=' + date;
+    if(diff.length > 0) url =`${url}&diff=${diff}`;
+    if(odd.length > 0)  url =`${url}&odds=${odd}`;
 	return _goto(url);
 }
 // filter
