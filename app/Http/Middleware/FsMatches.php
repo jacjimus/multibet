@@ -18,6 +18,8 @@ class FsMatches
     {
         //matches date
         $date = $request->has('date') && ($tmp = trim($request->date)) ? $tmp : null;
+        $form_diff = $request->get('diff') ?? null;
+        $odds = $request->get('odds') ?? null;
 
         //future date guard
         $us = app('UserService');
@@ -52,7 +54,7 @@ class FsMatches
 
         //fs matches
         $fs_matches = new \App\Services\Fstats\FsMatches($date);
-        $fs_match_list = $fs_matches->getMatches(1);
+        $fs_match_list = $fs_matches->getMatches(1, 0, $form_diff, $odds);
         $fs_date_links = $fs_matches->getDateListLinks();
         $fs_fetch = x_cache_get("fs-fetch-$utime");
 
@@ -61,6 +63,8 @@ class FsMatches
             'fs_show_date' => $fs_matches->show_date,
             'fs_date_links' => $fs_date_links,
             'fs_match_list' => $fs_match_list,
+            'form_diff' => $form_diff,
+            'odds' => $odds,
             'fs_fetch' => $fs_fetch,
         ];
         foreach ($share as $key => $val) {

@@ -6,6 +6,7 @@ use App\Models\Fstats\FsMatch;
 use App\Models\Fstats\FsWdw;
 use App\Models\Fstats\SpMatch;
 use App\Traits\HasSettings;
+use Illuminate\Support\Facades\DB;
 
 //day in seconds
 if (!defined('DAYSEC')) {
@@ -190,7 +191,7 @@ class FsMatches
     }
 
     //get matches
-    public function getMatches(bool $filter=true, bool $cache_matches=false)
+    public function getMatches(bool $filter=true, bool $cache_matches=false, string $diff='', string $odd = '')
     {
         //set vars
         $utime = $this->_utime;
@@ -216,7 +217,7 @@ class FsMatches
         }
 
         //matches fetch
-        $matches = $this->fetchMatches();
+        $matches = $this->fetchMatches($diff, $odd);
 
         //matches filter
         if ($filter && x_is_list($matches, 0)) {
@@ -256,16 +257,23 @@ class FsMatches
     }
 
     //fetch matches
-    public function fetchMatches()
+    public function fetchMatches($diff = '', $odd = '')
     {
         //set vars
         $now = $this->_now;
         $today = $this->_today;
         $utime = $this->_utime;
         $key = sprintf($this->_sync_cache, $utime);
-
+        $builder = FsMatch::where('date', $utime);
+        if ($diff) {
+            $builder->where(DB::raw('ROUND(ABS(away_form_last5 - home_form_last5) * 5, 0)'), '>=', $diff);
+        }
+        if ($odd) {
+            $odd = explode('-', $odd);
+            $builder->whereBetween(DB::raw('IF(away_form_last5 > home_form_last5, away_score, home_score)'), $odd)->orderBy('time', 'asc');
+        }
         //matches query
-        $query = FsMatch::where('date', $utime)->orderBy('time', 'asc');
+        $query = $builder->orderBy('time', 'asc');
 
         //matches update
         $sync = (int) x_cache_get($key);

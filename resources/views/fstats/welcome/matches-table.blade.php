@@ -38,6 +38,7 @@
                             :maxlength="2"
                             :size="2"
                             style="text-align: right"
+                            value="{{$form_diff}}"
                             />
                     </th>
                     <th class="text-nowrap text-center">
@@ -45,9 +46,10 @@
                             id="odds"
                             name="odds"
                             type="text"
-                            :maxlength="4"
-                            :size="4"
+                            :maxlength="9"
+                            :size="9"
                             style="text-align: right"
+                            value="{{$odds}}"
                         />
 
                     </th>

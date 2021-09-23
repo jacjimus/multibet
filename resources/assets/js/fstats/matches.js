@@ -14,6 +14,16 @@ $(function(){
 		_fsMatches(date);
 	});
 
+    $(document).on("keypress", "input", function(e){
+        const fill = $("#form-diff").val();
+        const odd = $("#odds").val();
+        if(e.which == 13){
+            if(fill.length < 1 && odd.length < 1) return;
+            _fsFilterMatches(fill, odd);
+        }
+    });
+
+
 	//fs-fetch poll
 	_fsFetchPoll();
 });
@@ -69,4 +79,13 @@ function _fsMatches(date){
 	if (date == curr) return _scrollTop('#fs-matches'); //todo update current
 	let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + '/?date=' + date;
 	return _goto(url);
+}
+// filter
+function _fsFilterMatches(diff, odd){
+    let curr = _fsMatchesDate();
+    let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + '?date=' + curr;
+            if(diff.length > 0) url =`${url}&diff=${diff}`;
+            if(odd.length > 0)  url =`${url}&odds=${odd}`;
+    console.log(diff.length > 0)
+    return _goto(url);
 }
