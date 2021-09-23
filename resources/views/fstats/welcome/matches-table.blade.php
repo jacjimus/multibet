@@ -76,13 +76,14 @@
                 columns: [
                     { headerText: "Match ID", key: "id", dataType: "string", hidden: true },
                     { headerText: "Date/Time", key: "time_text", dataType: "date", width: "10%" },
-                    { headerText: "League", key: "league_name", dataType: "string",  width: "15%" },
                     { headerText: "Home team", key: "home_name", dataType: "string", width: "15%" },
                     { headerText: "Form", key: "home_form_last5", dataType: "number", width: "10%" },
                     { headerText: "Away team", key: "away_name", dataType: "string", width: "15%" },
                     { headerText: "Form", key: "away_form_last5", dataType: "number", width: "10%" },
                     { headerText: "Form diff.", key: "form_diff_last5", dataType: "number", width: "10%" },
-                    { headerText: "Odds", key: "odds_max", dataType: "number", width: "10%" }
+                    { headerText: "Odds", key: "odds_tips", dataType: "object", width: "10%" ,
+                        mapper:  (odds) => {
+                            return odds.home_form_last5 >= odds.away_form_last5 ? odds.odds_tips[1] : odds.odds_tips[2]  }}
                 ],
                 dataSource: {!! json_encode($fs_match_list) !!},
                 renderCheckboxes: true,
