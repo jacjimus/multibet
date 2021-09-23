@@ -16,6 +16,7 @@
 		<table id="fs-matches-table" data-date="{{ $fs_show_date }}">
 			<thead>
 				<tr>
+					<th class="text-nowrap text-center">@lang('#')</th>
 					<th class="text-nowrap text-center">@lang('Date/Time')</th>
 					<th class="text-nowrap text-center">@lang('Home team')</th>
 					<th class="text-nowrap text-center">@lang('Form')</th>
@@ -58,11 +59,13 @@
 			</thead>
 			<tbody>
 				@if (!empty($fs_match_list))
+                    @php $count=1 @endphp
 				@foreach ($fs_match_list as $item)
 				<!-- match -->
 				<tr data-item="@json($item)" data-fs-date="{{ $item['date'] }}"  data-fs-time-text="{{ $item['time_text'] }}">
 
 					<!-- date -->
+					<td class="text-nowrap text-center">{{ $count }}</td>
 					<td class="text-nowrap text-center">{{ $item['time_text'] }}</td>
 
 					<!-- fixture -->
@@ -83,6 +86,7 @@
 
 
                 </tr>
+                    @php $count++; @endphp
 				@endforeach
 				@endif
 			</tbody>
