@@ -267,14 +267,17 @@ class FsMatches
         $builder = FsMatch::where('fstats_fs_matches.date', $utime);
 
         if ($odd) {
-            $odd = explode('-', $odd);
+            $odd_arr = explode('-', $odd);
             $builder->join('fstats_fs_wdws', 'fstats_fs_wdws.fs_match_id', 'fstats_fs_matches.id');
-            $builder->whereBetween(DB::raw('IF(away_form_last5 > home_form_last5, fstats_fs_wdws.away_odds, fstats_fs_wdws.away_odds)'), $odd)->orderBy('time', 'asc');
+            if (count($odd_arr) > 1) {
+                $builder->whereBetween(DB::raw('IF(away_form_last5 > home_form_last5, fstats_fs_wdws.away_odds, fstats_fs_wdws.home_odds)'), $odd_arr)->orderBy('time', 'asc');
+            } elseif (count($odd_arr) == 1) {
+                $builder->where(DB::raw('IF(away_form_last5 > home_form_last5, fstats_fs_wdws.away_odds, fstats_fs_wdws.home_odds)'), '>=', $odd_arr[0])->orderBy('time', 'asc');
+            }
         }
         if ($diff) {
             $builder->where(DB::raw('ROUND(ABS(away_form_last5 - home_form_last5) * 5, 0)'), '>=', $diff);
         }
-
         //matches query
         $query = $builder->orderBy('time', 'asc');
 
