@@ -220,31 +220,31 @@ class FsMatches
         $matches = $this->fetchMatches($diff, $odd);
 
         //matches filter
-//        if ($filter && x_is_list($matches, 0)) {
-//            $matches = array_values(array_filter($matches, function ($item) {
-//                $odds_min = isset($item['odds_tips']) && x_is_assoc($item['odds_tips']) ? min(array_values($item['odds_tips'])) : 0;
-//                $odds_max = isset($item['odds_tips']) && x_is_assoc($item['odds_tips']) ? max(array_values($item['odds_tips'])) : 0;
-//                $wdw_max = isset($item['win_max']) ? $item['win_max'] : 0;
-//                $form_diff_last5 = isset($item['form_diff_last5']) ? $item['form_diff_last5'] : 0;
-//                $form_diff_home_away = isset($item['form_diff_home_away']) ? $item['form_diff_home_away'] : 0;
-//                $home_form_last5 = isset($item['home_form_last5']) ? $item['home_form_last5'] : 0;
-//                $home_form_home_away = isset($item['home_form_home_away']) ? $item['home_form_home_away'] : 0;
-//                $away_form_last5 = isset($item['away_form_last5']) ? $item['away_form_last5'] : 0;
-//                $away_form_home_away = isset($item['away_form_home_away']) ? $item['away_form_home_away'] : 0;
-//                $form_min_last5 = min([$home_form_last5, $away_form_last5]);
-//                $form_max_last5 = max([$home_form_last5, $away_form_last5]);
-//                $form_min_home_away = min([$home_form_home_away, $away_form_home_away]);
-//                $form_max_home_away = max([$home_form_home_away, $away_form_home_away]);
-//
-//                //edit filters using the variables above
-//                return $form_diff_last5 >= 0
-//                    && $form_diff_home_away >= 0
-//                    && $wdw_max >= 0
-//                    && $odds_min >= 0 && $odds_min <= 100
-//                    && !($home_form_last5 == 0 && $away_form_last5 == 0)
-//                    ; //dont remove this semicollon
-//            }));
-//        }
+        if ($filter && x_is_list($matches, 0)) {
+            $matches = array_values(array_filter($matches, function ($item) {
+                $odds_min = isset($item['odds_tips']) && x_is_assoc($item['odds_tips']) ? min(array_values($item['odds_tips'])) : 0;
+                $odds_max = isset($item['odds_tips']) && x_is_assoc($item['odds_tips']) ? max(array_values($item['odds_tips'])) : 0;
+                $wdw_max = isset($item['win_max']) ? $item['win_max'] : 0;
+                $form_diff_last5 = isset($item['form_diff_last5']) ? $item['form_diff_last5'] : 0;
+                $form_diff_home_away = isset($item['form_diff_home_away']) ? $item['form_diff_home_away'] : 0;
+                $home_form_last5 = isset($item['home_form_last5']) ? $item['home_form_last5'] : 0;
+                $home_form_home_away = isset($item['home_form_home_away']) ? $item['home_form_home_away'] : 0;
+                $away_form_last5 = isset($item['away_form_last5']) ? $item['away_form_last5'] : 0;
+                $away_form_home_away = isset($item['away_form_home_away']) ? $item['away_form_home_away'] : 0;
+                $form_min_last5 = min([$home_form_last5, $away_form_last5]);
+                $form_max_last5 = max([$home_form_last5, $away_form_last5]);
+                $form_min_home_away = min([$home_form_home_away, $away_form_home_away]);
+                $form_max_home_away = max([$home_form_home_away, $away_form_home_away]);
+
+                //edit filters using the variables above
+                return $form_diff_last5 >= 0
+                    && $form_diff_home_away >= 0
+                    && $wdw_max >= 0
+                    && $odds_min >= 0 && $odds_min <= 100
+                    && !($home_form_last5 == 0 && $away_form_last5 == 0)
+                    ; //dont remove this semicollon
+            }));
+        }
 
         //matches cache
         if (x_is_list($matches, 0)) {
