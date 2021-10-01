@@ -455,12 +455,11 @@ class Footystats extends FsSession
 
             //output
             x_dump('', sprintf(' - League: %s - %s (%s)', $league_name, $country, $count_games));
-
+            //dd($games);
             //saving - league matches
             foreach ($games as $i => $game) {
                 //index number
                 $num = ($i + 1) . '/' . $count_games;
-
                 //match data
                 $league_url = trim(x_array_get('league_url', $game));
                 $time = (int) x_array_get('time', $game);
@@ -476,6 +475,8 @@ class Footystats extends FsSession
                 $away_name = trim(x_array_get('away.name', $game));
                 $away_score = is_numeric($tmp = x_array_get('away.score', $game)) ? (int) $tmp : null;
                 $away_form = (float) x_array_get('away.form', $game);
+                $home_odds = (float) x_array_get('home.odds', $game);
+                $away_odds = (float) x_array_get('away.odds', $game);
 
                 //skip required data validation fail
                 if (!(
@@ -617,6 +618,8 @@ class Footystats extends FsSession
                         'away_name' => $away_name,
                         "away_form_$form" => $away_form,
                         'away_score' => $away_score,
+                        'away_odds' => $away_odds,
+                        'home_odds' => $home_odds,
                     ];
                     //if ($form != 'last5') dd($data);
 

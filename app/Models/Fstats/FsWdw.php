@@ -59,6 +59,6 @@ class FsWdw extends BaseModel
      */
     public function fstatsFsMatch()
     {
-        return $this->belongsTo('App\Models\Fstats\FsMatch', 'fs_match_id', 'id');
+        return $this->belongsTo(FsMatch::class, 'fs_match_id', 'id');
     }
 }

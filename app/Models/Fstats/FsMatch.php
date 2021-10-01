@@ -70,7 +70,7 @@ class FsMatch extends BaseModel
      */
     public function fstatsFsWdw()
     {
-        return $this->hasOne('App\Models\Fstats\FsWdw', 'fs_match_id', 'id');
+        return $this->hasOne(FsWdw::class)->withDefault();
     }
 
     /**
