@@ -35,10 +35,10 @@ jobs:
       run: vendor/bin/phpunit
 
     - name: Deploy to production
-        uses: shimataro/ssh-key-action@v2
-        with:
-           username: ${{ secrets.CONTABO_USERNAME }}
-           host: ${{ secrets.CONTABO_HOST }}
-           port: ${{ secrets.CONTABO_PORT }}
-           key: ${{ secrets.CONTABO_PRIVATE_KEY }}
-           script: 'cd /var/www/multibet && ./deploy.sh && php artisan up'
+      uses: shimataro/ssh-key-action@v2
+      with:
+         username: ${{ secrets.CONTABO_USERNAME }}
+         host: ${{ secrets.CONTABO_HOST }}
+         port: ${{ secrets.CONTABO_PORT }}
+         key: ${{ secrets.CONTABO_PRIVATE_KEY }}
+         script: 'cd /var/www/multibet && ./deploy.sh && php artisan up'
