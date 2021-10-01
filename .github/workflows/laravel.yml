@@ -28,7 +28,7 @@ jobs:
       uses: burnett01/rsync-deployments@5.1
       with:
         switches: -avzr --delete --exclude="" --include="" --filter=""
-        path: ../../
+        path: ./
         remote_path: /var/www/multibet/
         remote_host: ${{secrets.CONTABO_HOST}}
         remote_port: ${{secrets.CONTABO_PORT}}
