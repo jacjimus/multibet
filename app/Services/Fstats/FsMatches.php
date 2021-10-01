@@ -359,7 +359,7 @@ class FsMatches
                 $odds_from = null;
 
                 //setup match win-draw-win
-                $fs_wdw = ($tmp = $fs_match->fs_wdw_id) ? FsWdw::find($tmp) : null;
+                $fs_wdw = ($tmp = $fs_match->id) ? FsWdw::where('fs_match_id', $tmp)->first() : null;
                 if ($fs_wdw) {
                     //set vars
                     $fs_wdw_id = (int) $fs_wdw->id;
