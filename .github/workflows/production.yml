@@ -12,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: shivammathur/setup-php@15c43e89cdef867065b0213be354c2841860869e
+    - uses: shivammathur/setup-php@v2
       with:
-        php-version: '7.4'
+        php-version: '8.0'
     - uses: actions/checkout@v2
     - name: Copy .env
       run: php -r "file_exists('.env') || copy('.env.example', '.env');"
@@ -29,8 +29,8 @@ jobs:
       with:
         switches: -avzr --delete --exclude="" --include="" --filter=""
         path: ./
-        remote_path: /var/www/multibet/
-        remote_host: ${{secrets.CONTABO_HOST}}
-        remote_port: ${{secrets.CONTABO_PORT}}
-        remote_user: ${{secrets.CONTABO_USERNAME}}
-        remote_key: ${{ secrets.CONTABO_PRIVATE_KEY }}
+        remote_path: /home/jacjimus/surebets
+        remote_host: ${{secrets.GCP_SUREBETS_HOST}}
+        remote_port: ${{secrets.GCP_SUREBETS_PORT}}
+        remote_user: ${{secrets.GCP_SUREBETS_USERNAME}}
+        remote_key: ${{ secrets.GCP_SUREBETS_PRIVATE_KEY }}
