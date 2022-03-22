@@ -219,34 +219,6 @@ class FsMatches
         //matches fetch
         $matches = $this->fetchMatches($diff, $odd);
 
-        //matches filter
-        if ($filter && x_is_list($matches, 0)) {
-            $matches = array_values(array_filter($matches, function ($item) {
-                $odds_min = isset($item['odds_tips']) && x_is_assoc($item['odds_tips']) ? min(array_values($item['odds_tips'])) : 0;
-                $odds_max = isset($item['odds_tips']) && x_is_assoc($item['odds_tips']) ? max(array_values($item['odds_tips'])) : 0;
-                $wdw_max = isset($item['win_max']) ? $item['win_max'] : 0;
-                $form_diff_last5 = isset($item['form_diff_last5']) ? $item['form_diff_last5'] : 0;
-                $form_diff_home_away = isset($item['form_diff_home_away']) ? $item['form_diff_home_away'] : 0;
-                $home_form_last5 = isset($item['home_form_last5']) ? $item['home_form_last5'] : 0;
-                $home_form_home_away = isset($item['home_form_home_away']) ? $item['home_form_home_away'] : 0;
-                $away_form_last5 = isset($item['away_form_last5']) ? $item['away_form_last5'] : 0;
-                $away_form_home_away = isset($item['away_form_home_away']) ? $item['away_form_home_away'] : 0;
-                $form_min_last5 = min([$home_form_last5, $away_form_last5]);
-                $form_max_last5 = max([$home_form_last5, $away_form_last5]);
-                $form_min_home_away = min([$home_form_home_away, $away_form_home_away]);
-                $form_max_home_away = max([$home_form_home_away, $away_form_home_away]);
-
-                //edit filters using the variables above
-                return $form_diff_last5 >= 0
-                    && $form_diff_home_away >= 0
-                    && $wdw_max >= 0
-                    && $odds_min >= 0 && $odds_min <= 100
-                    && !($home_form_last5 == 0 && $away_form_last5 == 0)
-                    ; //dont remove this semicollon
-            }));
-        }
-
-        //matches cache
         if (x_is_list($matches, 0)) {
             $this->_matches[$cache] = $matches;
             x_cache_set($cache, $matches, $this->_matches_cache_lifetime);
@@ -359,7 +331,7 @@ class FsMatches
                 $odds_from = null;
 
                 //setup match win-draw-win
-                $fs_wdw = ($tmp = $fs_match->id) ? FsWdw::where('fs_match_id', $tmp)->first() : null;
+                $fs_wdw = ($tmp = $fs_match->id) ? FsWdw::where('fs_match_id', $fs_match_id)->first() : null;
                 if ($fs_wdw) {
                     //set vars
                     $fs_wdw_id = (int) $fs_wdw->id;
@@ -569,96 +541,6 @@ class FsMatches
                     'win_max' => $win_max,
                     'win_tips' => $win_tips,
                     'win_tip' => $win_tip,
-                    'home_odds' => $home_odds,
-                    'away_odds' => $away_odds,
-                    'draw_odds' => $draw_odds,
-                    'odds_from' => $odds_from,
-                    'odds_max' => $odds_max,
-                    'odds_tips' => $odds_tips,
-                    'odds_tip' => $odds_tip,
-                ];
-
-                //add match
-                $matches[] = $match;
-            }
-        }
-
-        //get un-correlated sportpesa matches
-        $sp_matches = SpMatch::whereNull('fs_match_id')
-        -> where('date', $utime)
-        -> orderBy('time', 'asc')
-        -> get();
-
-        //adding un-correlated sportpesa matches
-        if (count($sp_matches)) {
-            //set matches
-            foreach ($sp_matches as $sp_match) {
-                //match vars
-                $sp_match_id = (int) $sp_match->id;
-                $date = (int) $sp_match->date;
-                $time = (int) $sp_match->time;
-                $country = x_tstr($sp_match->country);
-                $league_name = x_tstr($sp_match->league_name);
-                $home_name = x_tstr($sp_match->home_name);
-                $away_name = x_tstr($sp_match->away_name);
-                $home_odds = round((float) $sp_match->home_odds, 2);
-                $away_odds = round((float) $sp_match->away_odds, 2);
-                $draw_odds = round((float) $sp_match->draw_odds, 2);
-                $odds_from = 'sp';
-
-                //match status
-                $status = 'past';
-                if ($time > $now) {
-                    $status = 'upcoming';
-                } elseif ($time <= $now && ($now - $time) <= $this->_match_duration) {
-                    $status = 'live';
-                }
-
-                //match score & outcome
-                $score = null;
-                $outcome = null;
-                $home_score = is_numeric($tmp = $sp_match->home_score) ? (int) $tmp : null;
-                $away_score = is_numeric($tmp = $sp_match->away_score) ? (int) $tmp : null;
-                if (is_integer($home_score) || is_integer($away_score)) {
-                    $score_from = 'sp';
-                    $home_score = (int) $home_score;
-                    $away_score = (int) $away_score;
-                    $score = sprintf('%s - %s', $home_score, $away_score);
-                    $outcome = $home_score == $away_score ? 'X' : ($away_score > $away_score ? '1' : '2');
-                }
-
-                //match odds tip
-                $odds_max = null;
-                $odds_tips = null;
-                $odds_tip = null;
-                if ($home_odds > 0 || $away_odds > 0 || $draw_odds > 0) {
-                    $odds_tips = [
-                        '1' => $home_odds,
-                        '2' => $away_odds,
-                        'X' => $draw_odds,
-                    ];
-                    $odds_max = max(array_values($odds_tips));
-                    if (($tmp = array_search($odds_max, $odds_tips)) !== false) {
-                        $odds_tip = $tmp;
-                    }
-                }
-
-                //match data
-                $match = [
-                    'date' => $utime,
-                    'sp_match_id' => $sp_match_id,
-                    'time' => $time,
-                    'time_text' => x_udate($time, 'd-m, H:i'),
-                    'country' => $country,
-                    'league_name' => $league_name,
-                    'home_name' => $home_name,
-                    'away_name' => $away_name,
-                    'status' => $status,
-                    'home_score' => $home_score,
-                    'away_score' => $away_score,
-                    'score_from' => $score_from,
-                    'score' => $score,
-                    'outcome' => $outcome,
                     'home_odds' => $home_odds,
                     'away_odds' => $away_odds,
                     'draw_odds' => $draw_odds,

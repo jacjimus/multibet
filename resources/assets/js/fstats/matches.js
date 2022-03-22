@@ -6,27 +6,15 @@
 $(function(){
 	//fs-matches - click
 	$('[fs-matches]').click(function(e){
-        const fill = $("#form-diff").val();
-        const odd = $("#odds").val();
-		_fsMatches($(this).attr('fs-matches') ,fill, odd );
-	});
-
-	//fs-matches - event
-	$(document).on('fs-matches', function(e, date){
-        const fill = $("#form-diff").val();
-        const odd = $("#odds").val();
-		_fsMatches(date , fill, odd);
-	});
-
-    $(document).on("keypress", "input", function(e){
-        const fill = $("#form-diff").val();
-        const odd = $("#odds").val();
-        if(e.which == 13){
-            if(fill.length < 1 && odd.length < 1) return;
-            _fsFilterMatches(fill, odd);
-        }
-    });
-
+        let top = $("[name='top']").val();
+        let league = $("[name='league']").val();
+        let occurrence = $("[name='occurrence']").val();
+        let games = $("[name='games']").val();
+        let betting = $("[name='betting']").val();
+        let tip = $("[name='tip']").val();
+        let play = $("[name='play']").val();
+		_fsMatches($(this).attr('fs-matches') ,top,league,occurrence,games,betting,tip,play );
+	})
 
 	//fs-fetch poll
 	_fsFetchPoll();
@@ -36,7 +24,14 @@ $(function(){
 function _fsFetchPoll(){
 	if (!$('#fs-fetch-status').length) return console.debug('not updating');
 	let fs_date = _fsMatchesDate();
-	let url = `/?date=${fs_date}&fetch-status`;
+    let top = $("[name='top']").val();
+    let league = $("[name='league']").val();
+    let occurrence = $("[name='occurrence']").val();
+    let games = $("[name='games']").val();
+    let betting = $("[name='betting']").val();
+    let tip = $("[name='tip']").val();
+    let play = $("[name='play']").val();
+	let url = `/?fs_date=${fs_date}&fetch-table&top=${top}&league=${league}&occurrence=${occurrence}&games=${games}&betting=${betting}&tip=${tip}&play=${play}`;
 	console.debug('check fetch status');
 	_get(url).then(res => {
 		let status = res.data.status;
@@ -50,8 +45,15 @@ function _fsFetchPoll(){
 
 //_fsUpdateTable
 function _fsUpdateTable(){
-	let fs_date = _fsMatchesDate();
-	let url = `/?date=${fs_date}&fetch-table`;
+    let fs_date = _fsMatchesDate();
+    let top = $("[name='top']").val();
+    let league = $("[name='league']").val();
+    let occurrence = $("[name='occurrence']").val();
+    let games = $("[name='games']").val();
+    let betting = $("[name='betting']").val();
+    let tip = $("[name='tip']").val();
+    let play = $("[name='play']").val();
+	let url = `/?fs_date=${fs_date}&fetch-table&top=${top}&league=${league}&occurrence=${occurrence}&games=${games}&betting=${betting}&tip=${tip}&play=${play}`;
 	_get(url).then(res => {
 		let fs_table = _fsMatchesTable();
 		if (!fs_table.length) return console.error('Undefined fs table!');
@@ -77,21 +79,16 @@ function _fsMatchesDate(){
 }
 
 //_fsMatches
-function _fsMatches(date, diff , odd){
+function _fsMatches(date,top,league,occurrence,games,betting,tip,play){
 	if (!('string' === typeof date && date.length == 10)) return;
 	let curr = _fsMatchesDate();
 	if (date == curr) return _scrollTop('#fs-matches'); //todo update current
-	let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + '/?date=' + date;
-    if(diff.length > 0) url =`${url}&diff=${diff}`;
-    if(odd.length > 0)  url =`${url}&odds=${odd}`;
-	return _goto(url);
+	let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + `?fs_date=${date}&fetch-table&top=${top}&league=${league}&occurrence=${occurrence}&games=${games}&betting=${betting}&tip=${tip}&play=${play}`;
+    return _goto(url);
 }
 // filter
 function _fsFilterMatches(diff, odd){
     let curr = _fsMatchesDate();
-    let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + '?date=' + curr;
-            if(diff.length > 0) url =`${url}&diff=${diff}`;
-            if(odd.length > 0)  url =`${url}&odds=${odd}`;
-    console.log(diff.length > 0)
+    let url = _location(['query', 'hash']).toString().replace(/\/\s*$/, '') + `?fs_date=${fs_date}&fetch-table&top=${top}&league=${league}&occurrence=${occurrence}&games=${games}&betting=${betting}&tip=${tip}&play=${play}`;
     return _goto(url);
 }

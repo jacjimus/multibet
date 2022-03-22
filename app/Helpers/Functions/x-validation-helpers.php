@@ -230,8 +230,9 @@ function x_validate_model($model, array $messages=null, $parent=null)
     if (!is_null($parent) && !($model instanceof Model)) {
         throw new Exception('Invalid model validation $parent.');
     }
+    //dd($model->getInput(1));
     if (!x_is_assoc($input = $model->getInput(1))) {
-        throw new Exception('Undefined model validation input.');
+        // throw new Exception('Undefined model validation input.');
     }
     $rules = x_is_assoc($rules = x_model_rules($model, $model->getId())) ? $rules : [];
     $model_uid = $model->getUid();

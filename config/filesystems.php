@@ -82,5 +82,5 @@ return [
         public_path('storage') => storage_path('app/public'),
         public_path('assets') => resource_path('assets'),
     ],
-    
+
 ];

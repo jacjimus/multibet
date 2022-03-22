@@ -45,5 +45,5 @@ function x_res_file($path, array $headers=null, bool $download=false, string $na
 //response - view
 function x_res_view(string $view, array $data=null, int $code=200)
 {
-    return response()->view($view, x_arr($data), $code);
+    response()->view($view, x_arr($data), $code);
 }

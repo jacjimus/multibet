@@ -127,7 +127,7 @@ return [
 
     'redis' => [
 
-        'client' => env('REDIS_CLIENT', 'phpredis'),
+        'client' => env('REDIS_CLIENT', 'predis'),
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
@@ -151,18 +151,18 @@ return [
         ],
     ],
 
-	/*
+    /*
     |--------------------------------------------------------------------------
     | NCMS | Artisan migrations
     |--------------------------------------------------------------------------
     |
     | Define artisan migration file names and commands.
-	| Used in \App\Services\Models\MigrationsBuilder::class.
+    | Used in \App\Services\Models\MigrationsBuilder::class.
     |
     */
 
-	'artisan_migrations' => [
-		'create_jobs_table' => 'queue:table',
-		'create_failed_jobs_table' => 'queue:failed-table',
-	],
+    'artisan_migrations' => [
+        'create_jobs_table' => 'queue:table',
+        'create_failed_jobs_table' => 'queue:failed-table',
+    ],
 ];

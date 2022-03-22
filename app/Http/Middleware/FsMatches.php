@@ -2,6 +2,8 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\ApiFootball\FixtureService;
+use App\Services\ApiFootball\LeagueService;
 use Closure;
 
 class FsMatches
@@ -13,13 +15,14 @@ class FsMatches
      * @param \Closure                 $next
      *
      * @return mixed
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws \Nette\Utils\JsonException
      */
     public function handle($request, Closure $next)
     {
         //matches date
-        $date = $request->has('date') && ($tmp = trim($request->date)) ? $tmp : null;
-        $form_diff = $request->get('diff') ?? null;
-        $odds = $request->get('odds') ?? null;
+        $date = $request->get('fs_date') ?? date('Y-m-d');
 
         //future date guard
         $us = app('UserService');
@@ -41,9 +44,6 @@ class FsMatches
         if ($user && strpos(url()->previous(), 'login') !== false && !$user_premium_bal) {
             return redirect('/premium');
         }
-        if ($premium_limit && ($utime > $now && $user_premium['bal'] < 1)) {
-            return redirect('/premium?rdr=' . base64_encode(url()->previous()));
-        }
 
         //fs fetch status check
         if ($request->has('fetch-status')) {
@@ -51,29 +51,26 @@ class FsMatches
             'status' => x_cache_get("fs-fetch-$utime"),
         ]);
         }
-
-        //fs matches
-        $fs_matches = new \App\Services\Fstats\FsMatches($date);
-        $fs_match_list = $fs_matches->getMatches(1, 0, $form_diff, $odds);
-        $fs_date_links = $fs_matches->getDateListLinks();
+        $fs_matches = new FixtureService($date);
+        $fs_match_list = $fs_matches->data($request);
         $fs_fetch = x_cache_get("fs-fetch-$utime");
+        $leagues = (new LeagueService())->data();
+        $fs_date_links = $fs_matches->getDateListLinks();
 
         //view share
         $share = [
             'fs_show_date' => $fs_matches->show_date,
             'fs_date_links' => $fs_date_links,
             'fs_match_list' => $fs_match_list,
-            'form_diff' => $form_diff,
-            'odds' => $odds,
             'fs_fetch' => $fs_fetch,
+            'leagues' => collect($leagues)->pluck('name', 'league_id'),
         ];
         foreach ($share as $key => $val) {
             view()->share($key, $val);
         }
-
         //fs matches table only
         if ($request->has('fetch-table')) {
-            return x_res_view('fstats.welcome.matches-table');
+            //return x_res_view('fstats.welcome.matches-table');
         }
 
         //next

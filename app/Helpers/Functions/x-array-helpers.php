@@ -12,6 +12,7 @@ function x_is_empty($val, bool $trim_string=true)
     if (is_object($val)) {
         return empty((array) $val);
     }
+
     return empty($val);
 }
 
@@ -42,6 +43,7 @@ function x_to_array($val, bool $include_empty=false, bool $trim_string=true)
     if (x_is_empty($val, 1) && !$include_empty) {
         return [];
     }
+
     return (array) $val;
 }
 
@@ -70,17 +72,17 @@ function x_array_norm_keys(&$val, array $map)
     if (!(is_array($map) && !empty($map))) {
         return $val;
     }
-    
+
     //set val keys - ignore invalid
     if (!(is_array($val) && count($keys = array_keys($val)))) {
         return $val;
     }
-    
+
     //keys - lowercase
     $keys_lower = array_map(function ($key) {
         return strtolower($key);
     }, $keys);
-    
+
     //normalize keys
     $is_list = x_is_list($map);
     foreach ($map as $key => $norm_key) {
@@ -89,27 +91,27 @@ function x_array_norm_keys(&$val, array $map)
         if (($pos = array_search(strtolower($key), $keys_lower)) === false) {
             continue;
         }
-        
+
         //set val key
         $vkey = $keys[$pos];
-        
+
         //ignore no change
         if (trim($vkey) === trim($norm_key)) {
             continue;
         }
-        
+
         //set key value - unset key
         $value = $val[$vkey];
         unset($val[$vkey]);
-        
+
         //set val normalized
         $val = array_merge(
             array_slice($val, 0, $pos, true),
-            array($norm_key => $value),
+            [$norm_key => $value],
             array_slice($val, $pos, null, true)
         );
     }
-    
+
     //result - normalized val
     return $val;
 }
@@ -121,12 +123,12 @@ function x_has_key($val, $key)
     if (is_array($val)) {
         return array_key_exists($key, $val);
     }
-    
+
     //check if object has property
     if (is_object($val)) {
         return property_exists($val, $key);
     }
-    
+
     //return false (key/property not found)
     return false;
 }
@@ -166,6 +168,7 @@ function x_array_remove_empty($arr, bool $trim_string=true)
             $buffer[$key] = $val;
         }
     }
+
     return x_is_assoc($arr) ? $buffer : array_values($buffer);
 }
 
@@ -178,6 +181,7 @@ function x_split($glue, $str, &$count=0, bool $remove_empty=false, bool $trim_st
         $arr = x_array_remove_empty($arr, $trim_string);
     }
     $count = count($arr);
+
     return $arr;
 }
 
@@ -185,6 +189,7 @@ function x_split($glue, $str, &$count=0, bool $remove_empty=false, bool $trim_st
 function x_tsplit($glue, $str, &$count=0)
 {
     $count = count($items = x_split($glue, $str, $c, 1, 1));
+
     return $items;
 }
 
@@ -221,11 +226,12 @@ function x_join(
             $buffer[] = $__join($items_list);
         }
         $str = sprintf($max_template, implode($max_glue, $buffer));
-        $str = preg_replace('/(\s*)$/', rtrim($max_glue) . "$1", $str);
-        $str = preg_replace('/' . preg_quote(trim($max_glue)) . '(\s*)$/', "$1", $str);
+        $str = preg_replace('/(\s*)$/', rtrim($max_glue) . '$1', $str);
+        $str = preg_replace('/' . preg_quote(trim($max_glue)) . '(\s*)$/', '$1', $str);
+
         return $str;
     };
-    
+
     //join array items
     $items = [];
     $max_items = [];
@@ -235,7 +241,7 @@ function x_join(
             $max_items[] = $items;
             $items = [];
         }
-    };
+    }
     if (!empty($max_items) && !empty($items)) {
         $max_items[] = $items;
     }
@@ -284,6 +290,7 @@ function x_merge(...$items)
             $buffer[] = $item;
         }
     }
+
     return $buffer;
 }
 
@@ -295,7 +302,7 @@ function x_pluck_empty(array $arr, bool $trim_string=true)
     if (!x_is_list($arr)) {
         return $arr;
     }
-    
+
     //buffer
     $buffer = [];
     foreach ($arr as $item) {
@@ -324,10 +331,12 @@ function x_array_get($path, $arr, $default=null, bool $throw_missing=false)
             if ($throw_missing) {
                 x_throw(sprintf('Failed to resolve value (%s)!', x_join(array_slice($keys, 0, $i + 1), '.')));
             }
+
             return $default;
         }
         $val = &$val[$key];
     }
+
     return $val;
 }
 
@@ -344,6 +353,7 @@ function x_array_set($path, &$arr, $val)
     foreach ($keys as $i => $key) {
         if ($i == $count - 1) {
             $tmp[$key] = $val;
+
             continue;
         }
         if (!isset($tmp[$key])) {
@@ -353,6 +363,7 @@ function x_array_set($path, &$arr, $val)
         }
         $tmp = &$tmp[$key];
     }
+
     return $arr;
 }
 
@@ -367,8 +378,10 @@ function x_clone($val)
         foreach ($val as $key => $value) {
             $buffer[$key] = $value;
         }
+
         return $buffer;
     }
+
     return $val;
 }
 
@@ -421,6 +434,7 @@ function x_list_add($val, array $arr, bool $unique=true)
     if (!$unique || $unique && !in_array($val, $arr)) {
         $arr[] = $val;
     }
+
     return $arr;
 }
 
@@ -436,6 +450,7 @@ function x_has_list_keys(array $arr)
             return false;
         }
     }
+
     return true;
 }
 
@@ -450,6 +465,7 @@ function x_array_unset_keys(array $arr, ...$keys)
             unset($arr[$key]);
         }
     }, $keys);
+
     return $arr;
 }
 
@@ -464,6 +480,7 @@ function x_array_unset_values(array $arr, ...$values)
             unset($arr[$i]);
         }
     }, $values);
+
     return $arr;
 }
 
@@ -476,6 +493,7 @@ function x_array_key_values(array $arr, string $key)
     if (x_is_assoc($arr)) {
         return array_key_exists($key, $arr) ? x_arr($arr[$key], 1) : [];
     }
+
     return array_column($arr, $key);
 }
 
@@ -506,5 +524,6 @@ function x_array_only_keys(array $arr, $keys)
     if (!empty($buffer) && $is_assoc) {
         $buffer = $buffer[0];
     }
+
     return $buffer;
 }

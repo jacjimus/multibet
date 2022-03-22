@@ -12,10 +12,13 @@
 @section('page-head')
 	@parent
 	<x-controls.css :href="asset('assets/css/fstats/matches.css')" />
+
 @endsection
 
 {{-- matches js --}}
 @section('page-scripts')
 	@parent
-	<x-controls.js :src="asset('assets/js/fstats/matches.js')" />
+
+    <x-controls.js :src="asset('assets/js/fstats/matches.js')" />
+
 @endsection

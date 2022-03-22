@@ -268,7 +268,9 @@ class Footystats extends FsSession
             //form
             $form_types = $this->_form_types;
             $form_type = is_integer($form_type) && $form_type >= 0 && $form_type < count($form_types) ? $form_type : 0;
+            //dd($form_type);
             $form = $form_types[$form_type];
+            //print($form);
 
             //output
             x_dump(" - fetch matches $utime: date=$date, update=$update, form=$form");
@@ -313,6 +315,7 @@ class Footystats extends FsSession
         //leagues
         $tmp = preg_quote("<div class='league'>", '/');
         $pattern = '/' . sprintf('%s(.+?(?=%s))', $tmp, $tmp) . '/s';
+
         preg_replace_callback($pattern, function ($league_matches) use (&$update, &$matches_count, &$utime, &$ignore_create, &$form) {
             //league
             $league_match = $league_matches[1];
@@ -410,15 +413,9 @@ class Footystats extends FsSession
 
                 //team forms
                 $team_forms = $__match_all('/form-box[^>]*>([^<]*)</s', 1);
-                if (
-                    x_is_list($team_forms, 0)
-                    && count($team_forms) > 1
-                    && is_numeric(trim($team_forms[0]))
-                    && is_numeric(trim($team_forms[1]))
-                ) {
-                    $game['home']['form'] = (float) $team_forms[0];
-                    $game['away']['form'] = (float) $team_forms[1];
-                }
+                //<span class="col-lg-4 col-sm-4 ac  hover-modal-parent">1.05</span>
+                //set game odds
+                // $team_odds = $__match_all('/>([0-9\.]+)<\/li>/s', 0);
 
                 //match time
                 $match_time = $__match_all("/data-match-time=(\"|')([^\"|']+)(\"|')/s");
@@ -455,7 +452,7 @@ class Footystats extends FsSession
 
             //output
             x_dump('', sprintf(' - League: %s - %s (%s)', $league_name, $country, $count_games));
-            //dd($games);
+            // dd(count($games));
             //saving - league matches
             foreach ($games as $i => $game) {
                 //index number
@@ -666,13 +663,6 @@ class Footystats extends FsSession
             $update = 2;
         }
 
-        //output
-        x_dump(sprintf(
-            ' - fetch matches win-draw-win: %s (%s)',
-            x_udate($utime, $date_parse_format),
-            $update_modes[$update]
-        ));
-
         //open session
         $this->getPage($this->_home_url, null, !$update);
 
@@ -689,6 +679,7 @@ class Footystats extends FsSession
             'data3' => 'x',
         ];
         $response = $this->getPage($url, $data, !$update, 1, 1);
+        //dd($response);
 
         //parse response
         $games = [];
@@ -752,6 +743,7 @@ class Footystats extends FsSession
                 $draw_odds = round((float) $tmp_matches[1], 2);
                 $away_odds = round((float) $tmp_matches[2], 2);
             }
+            //dd($game_match);
             $game['home_odds'] = $home_odds;
             $game['draw_odds'] = $draw_odds;
             $game['away_odds'] = $away_odds;
