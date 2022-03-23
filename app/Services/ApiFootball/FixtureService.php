@@ -104,7 +104,7 @@ class FixtureService extends BaseService
             array_key_exists($verb, $res) ? array_push(
                 $data,
                 ['fixture_id' => $res[$verb]['id'],
-                    'fixture_date' => $res[$verb]['date'],
+                    'fixture_date' => x_udate($res[$verb]['date']),
                     'league_id' => $res['league']['id'],
                     'league' => $res['league']['name'],
                     'country' => $res['league']['country'],
