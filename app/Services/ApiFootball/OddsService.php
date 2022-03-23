@@ -41,7 +41,6 @@ class OddsService extends BaseService
                     'updated_at' => Carbon::create($res['update'])->format('Y-m-d H:i'),
 
                 ];
-                ray($data);
                 Fixtures::findOrFail($data['fixture_id'])->update($data);
             }
         }
