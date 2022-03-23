@@ -36,6 +36,6 @@ class LeagueService extends BaseService
         }
         Leagues::upsert($data, 'league_id');
 
-        return $data;
+        return Leagues::orderBy('name')->pluck('name', 'league_id')->toArray();
     }
 }

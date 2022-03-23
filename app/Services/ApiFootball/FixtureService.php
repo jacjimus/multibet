@@ -6,10 +6,10 @@ use App\Jobs\UpdateOdds;
 use App\Models\Fixtures;
 use App\Traits\HasSettings;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Str;
 
 class FixtureService extends BaseService
@@ -137,8 +137,12 @@ class FixtureService extends BaseService
         $tip = $request->get('tip') ?? null;
         $play = $request->get('play') ?? null;
         $query = Fixtures::where(DB::raw('DATE(fixture_date)'), $this->date);
-        if (isset($league) && $league && $league <> '-1') {
+        if (isset($league) && $league && $league != '-1') {
             $query->where('league_id', (int) $league);
+        }
+
+        if (isset($top) && $top && $top != '-1') {
+            $query->limit($top);
         }
 
         return $query->orderBy('fixture_date')->paginate(30);

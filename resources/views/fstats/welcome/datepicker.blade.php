@@ -15,7 +15,7 @@
                         </div>
                         <div class="form-group">
                             <label class="filter-col" style="margin-right:0;" for="league">&nbsp;teams from &nbsp;</label>
-                            &nbsp;{!! Form::select('league' , array_merge(['-1' => 'All leagues'], $leagues->toArray()) , old('league'), ['class' => 'form-control']) !!}&nbsp;
+                            &nbsp;{!! Form::select('league' , array_merge(['-1' => 'All leagues'], $leagues) , old('league'), ['class' => 'form-control']) !!}&nbsp;
                         </div> <!-- form group [rows] -->
                     </div>
                     <div class="row" style="padding: 20px;">

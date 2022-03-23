@@ -21,27 +21,27 @@ $(function(){
 });
 
 //_fsFetchPoll
-function _fsFetchPoll(){
-	if (!$('#fs-fetch-status').length) return console.debug('not updating');
-	let fs_date = _fsMatchesDate();
-    let top = $("[name='top']").val();
-    let league = $("[name='league']").val();
-    let occurrence = $("[name='occurrence']").val();
-    let games = $("[name='games']").val();
-    let betting = $("[name='betting']").val();
-    let tip = $("[name='tip']").val();
-    let play = $("[name='play']").val();
-	let url = `/?fs_date=${fs_date}&fetch-table&top=${top}&league=${league}&occurrence=${occurrence}&games=${games}&betting=${betting}&tip=${tip}&play=${play}`;
-	console.debug('check fetch status');
-	_get(url).then(res => {
-		let status = res.data.status;
-		if (!_isNull(status)){
-			setTimeout(() => _fsFetchPoll(), 3000);
-		}
-		else _fsUpdateTable();
-	})
-	.catch(err => console.error(url, err));
-}
+// function _fsFetchPoll(){
+// 	if (!$('#fs-fetch-status').length) return console.debug('not updating');
+// 	let fs_date = _fsMatchesDate();
+//     let top = $("[name='top']").val();
+//     let league = $("[name='league']").val();
+//     let occurrence = $("[name='occurrence']").val();
+//     let games = $("[name='games']").val();
+//     let betting = $("[name='betting']").val();
+//     let tip = $("[name='tip']").val();
+//     let play = $("[name='play']").val();
+// 	let url = `/?fs_date=${fs_date}&fetch-table&top=${top}&league=${league}&occurrence=${occurrence}&games=${games}&betting=${betting}&tip=${tip}&play=${play}`;
+// 	console.debug('check fetch status');
+// 	_get(url).then(res => {
+// 		let status = res.data.status;
+// 		if (!_isNull(status)){
+// 			setTimeout(() => _fsFetchPoll(), 5000);
+// 		}
+// 		else _fsUpdateTable();
+// 	})
+// 	.catch(err => console.error(url, err));
+// }
 
 //_fsUpdateTable
 function _fsUpdateTable(){

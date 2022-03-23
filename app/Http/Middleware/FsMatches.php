@@ -63,7 +63,7 @@ class FsMatches
             'fs_date_links' => $fs_date_links,
             'fs_match_list' => $fs_match_list,
             'fs_fetch' => $fs_fetch,
-            'leagues' => collect($leagues)->pluck('name', 'league_id'),
+            'leagues' =>$leagues,
         ];
         foreach ($share as $key => $val) {
             view()->share($key, $val);
