@@ -27,6 +27,6 @@ jobs:
       with:
          host: ${{secrets.GCP_SUREBETS_HOST}}
          port: ${{secrets.GCP_SUREBETS_PORT}}
-         userrname: ${{secrets.GCP_SUREBETS_USERNAME}}
+         username: ${{secrets.GCP_SUREBETS_USERNAME}}
          key: ${{ secrets.GCP_SUREBETS_PRIVATE_KEY }}
          script: 'cd /home/jacjimus/surebets && ./deploy.sh'
