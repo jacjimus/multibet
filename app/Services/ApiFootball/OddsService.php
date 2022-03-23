@@ -23,7 +23,8 @@ class OddsService extends BaseService
         foreach ($fixtures as $fix) {
             $params = [
                 'fixture' => $fix,
-                'bookmaker' => 8
+                'bookmaker' => 8,
+                'bet' => 13
             ];
 
             $cacheKey = md5((string) json_encode('fixture_' . $fix));
@@ -54,7 +55,8 @@ class OddsService extends BaseService
         do {
             $params = [
                 'fixture' => $fix,
-                'bookmaker' => $int
+                'bookmaker' => $int,
+                'bet' => 13
             ];
 
             Cache::forget($cacheKey);
