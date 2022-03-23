@@ -4,6 +4,7 @@ namespace App\Services\ApiFootball;
 
 use App\Traits\HasSettings;
 use Closure;
+use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\RequestOptions;
 use Illuminate\Http\JsonResponse;
@@ -45,7 +46,7 @@ class BaseService
 
             try {
                 $response = $client->request('GET', sprintf('%s%s?%s', $this->baseUrl, $suffix, $query), $headers);
-            } catch (\Exception $e) {
+            } catch (Exception $e) {
                 if ($e->getCode() == 429) {
                     sleep(30);
                 }

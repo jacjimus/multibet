@@ -24,19 +24,19 @@ class OddsService extends BaseService
             $params = [
                 'fixture' => $fix,
                 'bookmaker' => 8,
-                'bet' => 13
+                'bet' => 12
             ];
 
             $cacheKey = md5((string) json_encode('fixture_' . $fix));
             $response = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params));
-            $res = !empty($response['response']) ? $response['response'][0] : $this->getOtherBookmaker($fix, $cacheKey);
+            $res = !empty($response['response']) ? $response['response'][0] : false;
             if ($res) {
                 $data = [
                     'fixture_id' => $res[$verb]['id'],
                     'fixture_date' => Carbon::create($res[$verb]['date'])->format('Y-m-d H:i'),
-                    'home_draw_odds' => $res['bookmakers'][0]['bets'][13]['values'][0]['odd'],
-                    'home_away_odds' => $res['bookmakers'][0]['bets'][13]['values'][1]['odd'],
-                    'away_draw_odds' => $res['bookmakers'][0]['bets'][13]['values'][2]['odd'],
+                    'home_draw_odds' => $res['bookmakers'][0]['bets'][0]['values'][0]['odd'],
+                    'home_away_odds' => $res['bookmakers'][0]['bets'][0]['values'][1]['odd'],
+                    'away_draw_odds' => $res['bookmakers'][0]['bets'][0]['values'][2]['odd'],
                     'odds_updated' => 1,
                     'updated_at' => Carbon::create($res['update'])->format('Y-m-d H:i'),
 

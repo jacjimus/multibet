@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Services\ApiFootball\OddsService;
+use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -58,10 +59,7 @@ class UpdateOdds implements ShouldQueue, ShouldBeUnique
 
         try {
             (new OddsService())->updateOdds($date);
-        } catch (\Exception $e) {
-            if ($e->getCode == 429) {
-                $this->release(30);
-            }
+        } catch (Exception $e) {
         }
     }
 }
