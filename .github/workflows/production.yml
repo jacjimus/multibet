@@ -22,13 +22,11 @@ jobs:
       run: composer update --prefer-dist
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
-    - name: Deploy to production via rsync
-      uses: burnett01/rsync-deployments@5.2
+    - name: Deplying to production
+      uses: appleboy/ssh-action@master
       with:
-        switches: -avzr --delete
-        path: ./
-        remote_path: /home/jacjimus/surebets
-        remote_host: ${{secrets.GCP_SUREBETS_HOST}}
-        remote_port: ${{secrets.GCP_SUREBETS_PORT}}
-        remote_user: ${{secrets.GCP_SUREBETS_USERNAME}}
-        remote_key: ${{ secrets.GCP_SUREBETS_PRIVATE_KEY }}
+         host: ${{secrets.GCP_SUREBETS_HOST}}
+         port: ${{secrets.GCP_SUREBETS_PORT}}
+         userrname: ${{secrets.GCP_SUREBETS_USERNAME}}
+         key: ${{ secrets.GCP_SUREBETS_PRIVATE_KEY }}
+         script: 'cd /home/jacjimus/surebets && ./deploy.sh'
