@@ -33,9 +33,9 @@
 					<th class="text-nowrap text-center">@lang('League')</th>
 					<th class="text-nowrap text-center">@lang('Country')</th>
 					<th class="text-nowrap text-center">@lang('Status')</th>
-					<th class="text-nowrap text-center">@lang('HT odds')</th>
-					<th class="text-nowrap text-center">@lang('Draw odds')</th>
-					<th class="text-nowrap text-center">@lang('AT odds')</th>
+					<th class="text-nowrap text-center">@lang('1X odds')</th>
+					<th class="text-nowrap text-center">@lang('12 odds')</th>
+					<th class="text-nowrap text-center">@lang('X2 odds')</th>
 				</tr>
 
 
@@ -62,9 +62,9 @@
                             <span class="badge badge-{!! getBadge($item['status']) !!}" title="{{ $item['status_long'] }}">{{$item['status']}}</span>
                         </td>
 
-                        <td class="text-nowrap text-right">{{ $item['home_team_odds'] }}</td>
-                        <td class="text-nowrap text-right">{{ $item['draw_odds'] }}</td>
-                        <td class="text-nowrap text-right">{{ $item['away_team_odds'] }}</td>
+                        <td class="text-nowrap text-right">{{ $item['home_draw_odds'] }}</td>
+                        <td class="text-nowrap text-right">{{ $item['home_away_odds'] }}</td>
+                        <td class="text-nowrap text-right">{{ $item['away_draw_odds'] }}</td>
 
                 </tr>
 

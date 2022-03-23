@@ -32,7 +32,6 @@ class UpdateOdds implements ShouldQueue, ShouldBeUnique
     {
         $this->date = $date;
         $this->data = $data;
-        // $this->onQueue('odds_update');
     }
 
     /**
@@ -52,7 +51,7 @@ class UpdateOdds implements ShouldQueue, ShouldBeUnique
 
     public function uniqueId(): string
     {
-        return md5((string) json_encode($this->data));
+        return md5((string) json_encode([$this->date => $this->data]));
     }
 
     /**

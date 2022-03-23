@@ -112,17 +112,6 @@ class FixtureService extends BaseService
                     'away_team' => $res['teams']['away']['name'],
                     'status' => $res[$verb]['status']['short'],
                     'status_long' => $res[$verb]['status']['long'],
-                    'home_team_odds' => $res['score']['halftime']['home'],
-                    'half_time_home_goals' => $res['score']['halftime']['home'],
-                    'draw_odds' => $res['score']['halftime']['home'],
-                    'away_team_odds' => $res['score']['halftime']['home'],
-                    'half_time_away_goals' => $res['score']['halftime']['away'],
-                    'full_time_home_goals' => $res['score']['fulltime']['home'],
-                    'full_time_away_goals' => $res['score']['fulltime']['away'],
-                    'extra_time_home_goals' => $res['score']['extratime']['home'],
-                    'extra_time_away_goals' => $res['score']['extratime']['away'],
-                    'penalty_home_goals' => $res['score']['penalty']['home'],
-                    'penalty_away_goals' => $res['score']['penalty']['away'],
                     'results' => $res['goals']['home'] > $res['goals']['away'] ? 1 : 2,
                     ]
             ) : '';
