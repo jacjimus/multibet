@@ -28,6 +28,11 @@ class Leagues extends BaseModel
 
     ];
 
+    public function getFirstNameAttribute(): string
+    {
+        return "{$this->name} ({$this->country})";
+    }
+
     public function fixtures(): HasMany
     {
         return $this->hasMany(Fixtures::class);
