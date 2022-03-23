@@ -129,12 +129,17 @@ class FixtureService extends BaseService
         if (isset($league) && $league && $league != '-1') {
             $query->where('league_id', (int) $league);
         }
+        $query->orderBy('fixture_date');
 
         if (isset($top) && $top && $top != '-1') {
-            $query->limit($top);
+            if ($top <= 50) {
+                return  $query->paginate($top);
+            } else {
+                return $query->paginate(50);
+            }
+        } else {
+            return $query->paginate(50);
         }
-
-        return $query->orderBy('fixture_date')->paginate(30);
     }
 
     public function getDateListLinks()

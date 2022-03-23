@@ -12,6 +12,10 @@ class Leagues extends BaseModel
      *
      * @var array
      */
+    protected $primaryKey = 'league_id';
+
+    public $incrementing = false;
+
     protected $options = [
         'timestamps' => true,
     ];

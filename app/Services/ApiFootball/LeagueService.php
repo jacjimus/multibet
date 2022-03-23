@@ -3,6 +3,7 @@
 namespace App\Services\ApiFootball;
 
 use App\Models\Leagues;
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Str;
 
@@ -18,7 +19,7 @@ class LeagueService extends BaseService
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws \Nette\Utils\JsonException
      */
-    public function data(): array
+    public function data(): Collection
     {
         $params = [
                     'season' => date('Y'),
@@ -36,6 +37,6 @@ class LeagueService extends BaseService
         }
         Leagues::upsert($data, 'league_id');
 
-        return Leagues::orderBy('name')->pluck('name', 'league_id')->toArray();
+        return Leagues::select('name', 'country', 'league_id')->orderBy('name')->get();
     }
 }

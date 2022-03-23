@@ -15,7 +15,12 @@
                         </div>
                         <div class="form-group">
                             <label class="filter-col" style="margin-right:0;" for="league">&nbsp;teams from &nbsp;</label>
-                            &nbsp;{!! Form::select('league' , array_merge(['-1' => 'All leagues'], $leagues) , old('league'), ['class' => 'form-control']) !!}&nbsp;
+                        <select name="league" id="league" class="form-control">
+                            <option value="-1">All leagues</option>
+                            @foreach($leagues AS $l)
+                                <option value="{!! $l->league_id !!} ">{!! $l->name !!} ({!! $l->country !!})</option>
+                                @endforeach
+                        </select>
                         </div> <!-- form group [rows] -->
                     </div>
                     <div class="row" style="padding: 20px;">
