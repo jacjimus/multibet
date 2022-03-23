@@ -1,17 +1,15 @@
 #!/bin/sh
 set -e
 
-echo "Deploying application ..."
+echo "Deploying application to gcp cloud"
 
     # Update codebase
-     #git fetch --all
+    #git fetch --all
     git pull origin master
 
     # Install dependencies based on lock file
     #composer update --no-interaction --prefer-dist --optimize-autoloader
 
-    # Migrate database
-    php artisan migrate
 
     # Note: If you're using queue workers, this is the place to restart them.
     # ...
