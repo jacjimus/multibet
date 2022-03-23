@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Services\ApiFootball\OddsService;
-use DateTime;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
@@ -39,16 +38,6 @@ class UpdateOdds implements ShouldQueue, ShouldBeUnique
     {
         $this->date = $date;
         $this->data = $data;
-    }
-
-    /**
-     * Determine the time at which the job should timeout.
-     *
-     * @return DateTime
-     */
-    public function retryUntil(): Datetime
-    {
-        return now()->addMinutes(5);
     }
 
     public function uniqueVia()
