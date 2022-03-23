@@ -29,4 +29,4 @@ jobs:
          port: ${{secrets.GCP_SUREBETS_PORT}}
          username: ${{secrets.GCP_SUREBETS_USERNAME}}
          key: ${{ secrets.GCP_SUREBETS_PRIVATE_KEY }}
-         script: 'cd /home/jacjimus/surebets && ./deploy.sh'
+         script: 'cd /home/jacjimus/surebets && ./deploy.sh && sudo supervisorctl restart surebets-worker:*'
