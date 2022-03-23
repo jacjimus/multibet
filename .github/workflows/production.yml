@@ -25,7 +25,7 @@ jobs:
     - name: Deploy to production via rsync
       uses: burnett01/rsync-deployments@5.1
       with:
-        switches: -avzr --delete --exclude='/*/.local' /home/jacjimus/surebets  --filter=':- .*'
+        switches: -avzr --delete --exclude="" --include="" --filter=""
         path: ./
         remote_path: /home/jacjimus/surebets
         remote_host: ${{secrets.GCP_SUREBETS_HOST}}
