@@ -95,7 +95,7 @@ class FixtureService extends BaseService
      */
     public function data(Request $request): LengthAwarePaginator
     {
-        $params = ['date' => $this->date];
+        $params = ['date' => $this->date, 'timezone' => 'Africa/Nairobi'];
         $verb = Str::singular($this->suffix);
         $data = [];
         $cacheKey = md5((string) json_encode($this->date. '_matches'));
