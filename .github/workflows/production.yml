@@ -23,9 +23,9 @@ jobs:
     - name: Directory Permissions
       run: chmod -R 777 storage bootstrap/cache
     - name: Deploy to production via rsync
-      uses: burnett01/rsync-deployments@5.1
+      uses: burnett01/rsync-deployments@5.2
       with:
-        switches: -avzr --delete --exclude="" --include="" --filter=""
+        switches: -avzr --delete
         path: ./
         remote_path: /home/jacjimus/surebets
         remote_host: ${{secrets.GCP_SUREBETS_HOST}}
