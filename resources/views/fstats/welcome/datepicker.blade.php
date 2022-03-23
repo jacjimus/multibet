@@ -26,9 +26,7 @@
                     <div class="row" style="padding: 20px;">
                         <div class="form-group">
                             <label class="filter-col" style="margin-right:0;" for="date"> having more than </label>
-                            &nbsp;{!! Form::select('occurrence'  ,['100' => '100%', '95' => '95%','85' => '85%', '80' => '80%','75' => '75%',
-                                       '70' => '70%', '65' => '65%','60' => '60%', '55' => '55%', '50' => '50%','40' => '40%',
-                                      '30' => '30%', '20' => '20%', '10' => '10%','0' => '0%',
+                            &nbsp;{!! Form::select('occurrence'  ,['100' => '100%',  '80' => '80%', '50' => '50%', '10' => '10%','0' => '0%',
                                       ], old('occurrence'), ['class' => 'form-control' , 'style' => 'text-align: right;']) !!} &nbsp;
 
                         </div><!-- form group [search] -->

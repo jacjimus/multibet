@@ -1,5 +1,40 @@
 /* fs-matches */
-
+$('#search').on('submit',function(e) {
+    e.preventDefault();
+    let top = $("[name='top']").val();
+    let league = $("[name='league']").val();
+    let occurrence = $("[name='occurrence']").val();
+    let games = $("[name='games']").val();
+    let betting = $("[name='betting']").val();
+    let tip = $("[name='tip']").val();
+    let play = $("[name='play']").val();
+    $.ajax({
+        url: "",
+        type:"GET",
+        data:{
+            top:top,
+            league:league,
+            occurrence:occurrence,
+            games:games,
+            betting:betting,
+            tip:tip,
+            play:play,
+        },
+        success:function(response){
+            if (response) {
+                // $('#success-message').text(response.success);
+                // $("#contactForm")[0].reset();
+            }
+        },
+        error: function(response) {
+            // $('#name-error').text(response.responseJSON.errors.name);
+            // $('#email-error').text(response.responseJSON.errors.email);
+            // $('#mobile-number-error').text(response.responseJSON.errors.mobile_number);
+            // $('#subject-error').text(response.responseJSON.errors.subject);
+            // $('#message-error').text(response.responseJSON.errors.message);
+        }
+    });
+});
 
 
 //ready

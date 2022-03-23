@@ -22,7 +22,7 @@ class LeagueService extends BaseService
     public function data(): Collection
     {
         $params = [
-                    'season' => date('Y'),
+
         ];
         $verb = $verb = Str::singular($this->suffix);
         $data = [];

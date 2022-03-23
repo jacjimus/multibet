@@ -43,7 +43,13 @@ class BaseService
             ];
             $query = http_build_query($params);
 
-            $response = $client->request('GET', sprintf('%s%s?%s', $this->baseUrl, $suffix, $query), $headers);
+            try {
+                $response = $client->request('GET', sprintf('%s%s?%s', $this->baseUrl, $suffix, $query), $headers);
+            } catch (\Exception $e) {
+                if ($e->getCode() == 429) {
+                    sleep(30);
+                }
+            }
 
             return json_decode($response->getBody()->getContents(), true);
         };

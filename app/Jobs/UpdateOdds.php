@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Services\ApiFootball\OddsService;
-use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,8 +10,6 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Log;
-use Nette\Utils\JsonException;
 
 class UpdateOdds implements ShouldQueue, ShouldBeUnique
 {
@@ -61,9 +58,10 @@ class UpdateOdds implements ShouldQueue, ShouldBeUnique
 
         try {
             (new OddsService())->updateOdds($date);
-        } catch (GuzzleException $e) {
-        } catch (JsonException $e) {
-            Log::error($e->getMessage());
+        } catch (\Exception $e) {
+            if ($e->getCode == 429) {
+                $this->release(30);
+            }
         }
     }
 }

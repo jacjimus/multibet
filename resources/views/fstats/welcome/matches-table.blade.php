@@ -4,8 +4,9 @@
 	@if (!is_null($fs_fetch ?? ''))
 	<div id="fs-fetch-status" class="bg-primary text-center text-dark small p-1">
 		<x-controls.fa class="fa-spin" icon="spinner" />
+        {{$fs_fetch}}
 		<span class="ml-2">
-			@if ($fs_fetch ?? null)
+			@if (isset($fs_fetch))
 			@lang('Algorithm is fetching records... (This might take up to 20 seconds)')
 			@else
 			@lang('Analysing records...')
