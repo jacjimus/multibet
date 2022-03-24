@@ -27,6 +27,7 @@ class LeagueService extends BaseService
         $verb = $verb = Str::singular($this->suffix);
         $data = [];
         $cacheKey = md5((string) json_encode(date('Y')));
+
         $response = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params), true);
 
         foreach ($response['response'] as $key=>$res) {

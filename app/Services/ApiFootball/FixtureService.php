@@ -4,6 +4,7 @@ namespace App\Services\ApiFootball;
 
 use App\Jobs\UpdateOdds;
 use App\Models\Fixtures;
+use App\Models\FixtureTracker;
 use App\Traits\HasSettings;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
@@ -99,25 +100,29 @@ class FixtureService extends BaseService
         $verb = Str::singular($this->suffix);
         $data = [];
         $cacheKey = md5((string) json_encode($this->date. '_matches'));
-        $response = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params));
-        foreach ($response['response'] as $key=>$res) {
-            array_key_exists($verb, $res) ? array_push(
-                $data,
-                ['fixture_id' => $res[$verb]['id'],
-                    'fixture_date' => x_udate($res[$verb]['date']),
-                    'league_id' => $res['league']['id'],
-                    'league' => $res['league']['name'],
-                    'country' => $res['league']['country'],
-                    'home_team' => $res['teams']['home']['name'],
-                    'away_team' => $res['teams']['away']['name'],
-                    'status' => $res[$verb]['status']['short'],
-                    'status_long' => $res[$verb]['status']['long'],
-                    'results' => $res['goals']['home'] > $res['goals']['away'] ? 1 : 2,
+
+        if (!FixtureTracker::where(['date' , '', $this->date , 'pooled' , '=' , true])->exists()) {
+            $response = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params));
+            foreach ($response['response'] as $key => $res) {
+                array_key_exists($verb, $res) ? array_push(
+                    $data,
+                    [
+                        'fixture_id' => $res[$verb]['id'],
+                        'fixture_date' => x_udate($res[$verb]['date']),
+                        'league_id' => $res['league']['id'],
+                        'league' => $res['league']['name'],
+                        'country' => $res['league']['country'],
+                        'home_team' => $res['teams']['home']['name'],
+                        'away_team' => $res['teams']['away']['name'],
+                        'status' => $res[$verb]['status']['short'],
+                        'status_long' => $res[$verb]['status']['long'],
+                        'results' => $res['goals']['home'] > $res['goals']['away'] ? 1 : 2,
                     ]
-            ) : '';
-        }
-        if (Fixtures::upsert($data, 'fixture_id')) {
-            UpdateOdds::dispatch($this->date, $data);
+                ) : '';
+            }
+            if (Fixtures::upsert($data, 'fixture_id')) {
+                UpdateOdds::dispatch($this->date, $data);
+            }
         }
         $top = $request->get('top') ?? null;
         $occurrence = $request->get('occurrence') ?? null;
