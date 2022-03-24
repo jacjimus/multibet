@@ -69,7 +69,7 @@ class FixtureService extends BaseService
 
     public function __construct($date)
     {
-        $this->date = $date;
+        $this->date = $date ?? date('Y-d-m');
         $this->setDate($date);
     }
 
