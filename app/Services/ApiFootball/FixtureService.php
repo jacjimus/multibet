@@ -6,6 +6,7 @@ use App\Jobs\UpdateOdds;
 use App\Models\Fixtures;
 use App\Models\FixtureTracker;
 use App\Traits\HasSettings;
+use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -122,6 +123,7 @@ class FixtureService extends BaseService
             }
             if (Fixtures::upsert($data, 'fixture_id')) {
                 UpdateOdds::dispatch($this->date, $data);
+                FixtureTracker::insert(['date' => $this->date, 'pooled'=>1 , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now()]);
             }
         }
         $top = $request->get('top') ?? null;

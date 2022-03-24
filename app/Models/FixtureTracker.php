@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class FixtureTracker extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['date' , 'pooled'];
 }
