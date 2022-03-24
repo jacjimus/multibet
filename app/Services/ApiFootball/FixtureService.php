@@ -69,7 +69,7 @@ class FixtureService extends BaseService
 
     public function __construct($date)
     {
-        $this->date = $date;
+        $this->date = $date ?? date('Y-m-d');
         $this->setDate($date);
     }
 
@@ -101,7 +101,7 @@ class FixtureService extends BaseService
         $data = [];
         $cacheKey = md5((string) json_encode($this->date. '_matches'));
 
-        if (!FixtureTracker::where(['date' , '=', $this->date , 'pooled' , '=' , true])->exists()) {
+        if (!FixtureTracker::where([['date' , '=', $this->date] , ['pooled' , '=' , '1']])->exists()) {
             $response = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params));
             foreach ($response['response'] as $key => $res) {
                 array_key_exists($verb, $res) ? array_push(
