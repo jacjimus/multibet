@@ -55,7 +55,7 @@ class OddsService extends BaseService
             $params = [
                 'fixture' => $fix,
                 'bookmaker' => $int,
-                'bet' => 13
+                'bet' => 12
             ];
 
             Cache::forget($cacheKey);
