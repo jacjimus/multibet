@@ -122,8 +122,9 @@ class FixtureService extends BaseService
                 ) : '';
             }
             if (Fixtures::upsert($data, 'fixture_id')) {
-                UpdateOdds::dispatch($this->date, $data);
-                FixtureTracker::insert(['date' => $this->date, 'pooled'=>1 , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now()]);
+                if (UpdateOdds::dispatch($this->date, $data)) {
+                    FixtureTracker::insert(['date' => $this->date, 'pooled'=>1 , 'created_at' => Carbon::now() , 'updated_at' => Carbon::now()]);
+                }
             }
         }
         $top = $request->get('top') ?? null;

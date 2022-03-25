@@ -9,9 +9,9 @@ class Fixtures extends BaseModel
 {
     protected $primaryKey = 'fixture_id';
 
-    protected $guarded = 'id';
+    protected $guarded = 'fixture_id';
 
-    protected $rules = [];
+    public $incrementing = false;
 
     /**
      * Model options.

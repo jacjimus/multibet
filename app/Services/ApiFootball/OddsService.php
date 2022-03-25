@@ -5,7 +5,6 @@ namespace App\Services\ApiFootball;
 use App\Models\Fixtures;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
 
 class OddsService extends BaseService
 {
@@ -17,9 +16,9 @@ class OddsService extends BaseService
      */
     public function updateOdds(string $date):void
     {
-        $fixtures = Fixtures::where([[DB::raw('DATE(fixture_date)'), 'LIKE', $date], ['odds_updated' , '=' , 0]])->pluck('fixture_id')->toArray();
+        $fixtures = Fixtures::whereBetween('fixture_date', [Carbon::parse($date)->startOfDay(), Carbon::parse($date)->endOfDay()])
+            ->where('odds_updated', 0)->pluck('fixture_id')->toArray();
         $verb = 'fixture';
-        $insert = [];
         foreach ($fixtures as $fix) {
             $params = [
                 'fixture' => $fix,
@@ -32,7 +31,6 @@ class OddsService extends BaseService
             $res = !empty($response['response']) ? $response['response'][0] : false;
             if ($res) {
                 $data = [
-                    'fixture_id' => $res[$verb]['id'],
                     'fixture_date' => Carbon::create($res[$verb]['date'])->format('Y-m-d H:i'),
                     'home_draw_odds' => $res['bookmakers'][0]['bets'][0]['values'][0]['odd'],
                     'home_away_odds' => $res['bookmakers'][0]['bets'][0]['values'][1]['odd'],
@@ -41,7 +39,8 @@ class OddsService extends BaseService
                     'updated_at' => Carbon::create($res['update'])->format('Y-m-d H:i'),
 
                 ];
-                Fixtures::findOrFail($data['fixture_id'])->update($data);
+
+                Fixtures::where('fixture_id', $res[$verb]['id'])->update($data);
             }
         }
     }

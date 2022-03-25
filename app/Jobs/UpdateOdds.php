@@ -55,11 +55,12 @@ class UpdateOdds implements ShouldQueue, ShouldBeUnique
      */
     public function handle()
     {
-        $date = $this->date ?? date('Y-m-d');
+        $date = $this->date;
 
         try {
             (new OddsService())->updateOdds($date);
         } catch (Exception $e) {
+            ray($e);
         }
     }
 }
