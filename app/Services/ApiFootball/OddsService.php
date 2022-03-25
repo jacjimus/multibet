@@ -28,7 +28,7 @@ class OddsService extends BaseService
 
             $cacheKey = md5((string) json_encode('fixture_' . $fix));
             $response = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params));
-            $res = !empty($response['response']) ? $response['response'][0] : false;
+            $res = !empty($response['response']) ? $response['response'][0] : $this->getOtherBookmaker($fix, $cacheKey);
             if ($res) {
                 $data = [
                     'fixture_date' => Carbon::create($res[$verb]['date'])->format('Y-m-d H:i'),
@@ -61,7 +61,7 @@ class OddsService extends BaseService
             Cache::forget($cacheKey);
             $data = Cache::remember($cacheKey, 3600, $this->getData($this->suffix, $params));
             $int++;
-        } while (empty($data['response']) && $int < 5);
+        } while (empty($data['response']) && $int < 8);
 
         return $data['response'][0] ?? null;
     }

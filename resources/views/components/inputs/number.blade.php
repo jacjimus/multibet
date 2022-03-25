@@ -36,8 +36,8 @@
 	/>
 @endsection
 
-@if (!x_has_yield('page-scripts', 'controls/input.js'))
-@section('page-scripts')
+@if (!x_has_yield('page-scripts.sh', 'controls/input.js'))
+@section('page-scripts.sh')
 	@parent
 	<script src="{{ asset('assets/js/components/controls/number.js') }}"></script>
 @stop

@@ -80,9 +80,9 @@
 @endsection
 
 {{-- datepicker js --}}
-@section('page-scripts')
+@section('page-scripts.sh')
 	@parent
-	@if (stripos($__env->yieldContent('page-scripts'), 'bootstrap-datepicker.min.js') === false)
+	@if (stripos($__env->yieldContent('page-scripts.sh'), 'bootstrap-datepicker.min.js') === false)
 		<x-controls.js :src="asset('assets/js/lib/bootstrap-datepicker.min.js')" />
 	@endif
 	<x-controls.js :src="asset('assets/js/fstats/datepicker.js')" />

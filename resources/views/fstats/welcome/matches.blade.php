@@ -16,7 +16,7 @@
 @endsection
 
 {{-- matches js --}}
-@section('page-scripts')
+@section('page-scripts.sh')
 	@parent
 
     <x-controls.js :src="asset('assets/js/fstats/matches.js')" />

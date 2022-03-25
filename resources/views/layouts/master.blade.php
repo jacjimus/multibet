@@ -65,8 +65,8 @@
 		</div>
 		<!-- /page layout -->
 
-		<!-- page scripts -->
-		@section('page-scripts')
+		<!-- page scripts.sh -->
+		@section('page-scripts.sh')
 		<x-controls.js src="{{ asset('assets/js/components/session.js') }}" />
 		<x-controls.js src="{{ asset('assets/js/components/request.js') }}" />
         @show

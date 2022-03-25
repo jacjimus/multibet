@@ -79,8 +79,8 @@
 @endsection
 
 {{-- checkout js --}}
-@if (stripos($__env->yieldContent('page-scripts'), $tmp = 'assets/js/components/checkout.js') === false)
-@section('page-scripts')
+@if (stripos($__env->yieldContent('page-scripts.sh'), $tmp = 'assets/js/components/checkout.js') === false)
+@section('page-scripts.sh')
 	@parent
 	<x-controls.js :src="asset($tmp)" />
 @endsection

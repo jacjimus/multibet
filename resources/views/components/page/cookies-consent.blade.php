@@ -23,8 +23,8 @@
 <!-- /cookies consent -->
 
 {{-- cookies-consent js --}}
-@if (stripos($__env->yieldContent('page-scripts'), ($tmp = 'assets/js/components/cookies-consent.js')) === false)
-@section('page-scripts')
+@if (stripos($__env->yieldContent('page-scripts.sh'), ($tmp = 'assets/js/components/cookies-consent.js')) === false)
+@section('page-scripts.sh')
 	@parent
 	<x-controls.js :src="asset($tmp)" />
 @endsection
