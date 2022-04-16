@@ -55,7 +55,7 @@ class LoginController extends Controller
         $auth_key = 'email';
 
         //auth - email
-        $auth_value = 'admin@example.com';
+        $auth_value = 'james@bremak.co.ke';
 
         //auth - password
         if (isset($input[$key = 'password'])) {
