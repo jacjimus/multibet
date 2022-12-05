@@ -2,7 +2,7 @@
 
 Robust PHP MySQL Laravel CMS.
 
-_By Martin (xthukuh@gmail.com)_
+_By James (jacjimus@gmail.com)_
 
 
 ```
